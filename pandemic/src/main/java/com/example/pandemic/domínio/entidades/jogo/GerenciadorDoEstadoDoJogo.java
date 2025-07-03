@@ -1,12 +1,14 @@
-package com.example.pandemic.domínio.entidades;
+package com.example.pandemic.domínio.entidades.jogo;
 
+import com.example.pandemic.domínio.entidades.Doenca;
+import com.example.pandemic.domínio.entidades.Tabuleiro;
 import com.example.pandemic.domínio.entidades.cartas.Embaralhador;
 
-public class GameStateManager {
+public class GerenciadorDoEstadoDoJogo {
     private final Tabuleiro tabuleiro;
     private final Embaralhador embaralhador;
     
-    public GameStateManager(Tabuleiro tabuleiro, Embaralhador embaralhador) {
+    public GerenciadorDoEstadoDoJogo(Tabuleiro tabuleiro, Embaralhador embaralhador) {
         this.tabuleiro = tabuleiro;
         this.embaralhador = embaralhador;
     }

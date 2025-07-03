@@ -5,13 +5,10 @@ import java.util.List;
 
 import com.example.pandemic.domínio.entidades.Jogador;
 
-import java.util.ArrayList;
-
 public class Embaralhador {
     private List<CartaCidade> cartas;
 
     public Embaralhador(List<CartaCidade> cartas) {
-        // Initialize with cartas or assign to a field as needed
         this.cartas = cartas;
         embaralhar();
     }

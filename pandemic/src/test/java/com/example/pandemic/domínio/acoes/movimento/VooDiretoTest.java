@@ -1,4 +1,4 @@
-package com.example.pandemic.domain.acoes.movimento;
+package com.example.pandemic.domínio.acoes.movimento;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.example.pandemic.domínio.acoes.movimento.VooFretado;
+import com.example.pandemic.domínio.acoes.movimento.VooDireto;
 import com.example.pandemic.domínio.entidades.Cidade;
 import com.example.pandemic.domínio.entidades.Jogador;
 import com.example.pandemic.domínio.entidades.cartas.CartaCidade;
@@ -16,13 +16,13 @@ import com.example.pandemic.domínio.enums.Cor;
 import com.example.pandemic.domínio.utils.builders.CidadeBuilder;
 import com.example.pandemic.domínio.utils.builders.JogadorBuilder;
 
-class VooFretadoTest {
+class VooDiretoTest {
 
     private Jogador jogador;
     private Cidade cidadeOrigem;
     private Cidade cidadeDestino;
-    private CartaCidade cartaCidadeOrigem;
-    private VooFretado vooFretado;
+    private CartaCidade cartaCidadeDestino;
+    private VooDireto vooDireto;
 
     @BeforeEach
     void setUp() {
@@ -35,8 +35,8 @@ class VooFretadoTest {
             .comNome("Cidade Destino")
             .build();
 
-        // Criar carta da cidade origem
-        cartaCidadeOrigem = new CartaCidade("Cidade Origem", Cor.AZUL);
+        // Criar carta da cidade destino
+        cartaCidadeDestino = new CartaCidade("Cidade Destino", Cor.VERMELHO);
 
         // Criar jogador
         jogador = JogadorBuilder.umJogador()
@@ -45,83 +45,108 @@ class VooFretadoTest {
         jogador.setPosicao(cidadeOrigem);
         
         List<CartaCidade> cartas = new ArrayList<>();
-        cartas.add(cartaCidadeOrigem);
+        cartas.add(cartaCidadeDestino);
         jogador.setCartas(cartas);
 
         // Criar ação
-        vooFretado = new VooFretado(cidadeDestino);
+        vooDireto = new VooDireto(cidadeDestino);
     }
 
     @Test
-    void deveExecutarVooFretadoComSucesso() {
+    void deveExecutarVooDiretoComSucesso() {
         // Act
-        vooFretado.executar(jogador);
+        vooDireto.executar(jogador);
         
         // Assert
         assertEquals(cidadeDestino, jogador.getPosicao());
-        assertFalse(jogador.getCartas().contains(cartaCidadeOrigem), 
-            "Carta da cidade origem deveria ter sido removida");
+        assertFalse(jogador.getCartas().contains(cartaCidadeDestino), 
+            "Carta da cidade destino deveria ter sido removida");
         assertEquals(0, jogador.getCartas().size(), 
-            "Jogador não deveria ter cartas após usar voo fretado");
+            "Jogador não deveria ter cartas após usar voo direto");
     }
 
     @Test
-    void deveFalharSemCartaDaCidadeAtual() {
-  
-        jogador.setCartas(new ArrayList<>()); 
-
+    void deveFalharSemCartaDaCidadeDestino() {
+        // Arrange
+        jogador.setCartas(new ArrayList<>()); // Remover todas as cartas
+        
+        // Act & Assert
         IllegalStateException exception = assertThrows(IllegalStateException.class, 
-            () -> vooFretado.executar(jogador));
-        assertEquals("Jogador deve ter a carta da cidade atual para usar Voo Fretado.", 
+            () -> vooDireto.executar(jogador));
+        assertEquals("Jogador deve ter a carta da cidade de destino para usar Voo Direto.", 
             exception.getMessage());
     }
 
     @Test
     void deveFalharComCartaDeCidadeDiferente() {
-        CartaCidade cartaOutraCidade = new CartaCidade("Outra Cidade", Cor.VERMELHO);
+        // Arrange
+        CartaCidade cartaOutraCidade = new CartaCidade("Outra Cidade", Cor.AZUL);
         List<CartaCidade> cartas = new ArrayList<>();
         cartas.add(cartaOutraCidade);
         jogador.setCartas(cartas);
         
-
+        // Act & Assert
         IllegalStateException exception = assertThrows(IllegalStateException.class, 
-            () -> vooFretado.executar(jogador));
-        assertEquals("Jogador deve ter a carta da cidade atual para usar Voo Fretado.", 
+            () -> vooDireto.executar(jogador));
+        assertEquals("Jogador deve ter a carta da cidade de destino para usar Voo Direto.", 
             exception.getMessage());
     }
 
     @Test
     void deveFalharParaMesmaCidade() {
-        VooFretado vooFretadoMesmaCidade = new VooFretado(cidadeOrigem);
+        // Arrange
+        CartaCidade cartaCidadeOrigem = new CartaCidade("Cidade Origem", Cor.AZUL);
+        List<CartaCidade> cartas = new ArrayList<>();
+        cartas.add(cartaCidadeOrigem);
+        jogador.setCartas(cartas);
         
+        VooDireto vooDiretoMesmaCidade = new VooDireto(cidadeOrigem);
+        
+        // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
-            () -> vooFretadoMesmaCidade.executar(jogador));
-        assertEquals("Não é possível usar Voo Fretado para a mesma cidade.", 
+            () -> vooDiretoMesmaCidade.executar(jogador));
+        assertEquals("Não é possível usar Voo Direto para a mesma cidade.", 
             exception.getMessage());
     }
 
     @Test
     void deveFalharSemPosicao() {
+        // Arrange
         jogador.setPosicao(null);
         
+        // Act & Assert
         IllegalStateException exception = assertThrows(IllegalStateException.class, 
-            () -> vooFretado.executar(jogador));
-        assertEquals("Jogador deve estar em uma cidade para usar Voo Fretado.", 
+            () -> vooDireto.executar(jogador));
+        assertEquals("Jogador deve estar em uma cidade para usar Voo Direto.", 
             exception.getMessage());
     }
 
     @Test
     void deveManterOutrasCartasAposUso() {
+        // Arrange
         CartaCidade outraCarta = new CartaCidade("Outra Carta", Cor.AMARELO);
         List<CartaCidade> cartas = new ArrayList<>();
-        cartas.add(cartaCidadeOrigem);
+        cartas.add(cartaCidadeDestino);
         cartas.add(outraCarta);
         jogador.setCartas(cartas);
         
-        vooFretado.executar(jogador);
+        // Act
+        vooDireto.executar(jogador);
         
+        // Assert
         assertEquals(1, jogador.getCartas().size());
         assertTrue(jogador.getCartas().contains(outraCarta));
-        assertFalse(jogador.getCartas().contains(cartaCidadeOrigem));
+        assertFalse(jogador.getCartas().contains(cartaCidadeDestino));
+    }
+
+    @Test
+    void deveRetornarNomeCorreto() {
+        assertEquals("Voo Direto", vooDireto.getNome());
+    }
+
+    @Test
+    void deveRetornarDescricaoCorreta() {
+        assertEquals("Descarta a carta da cidade de destino para se mover até lá.", 
+            vooDireto.getDescricao());
     }
 }

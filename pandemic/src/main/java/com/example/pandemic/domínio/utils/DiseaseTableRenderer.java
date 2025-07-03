@@ -95,6 +95,9 @@ public class DiseaseTableRenderer {
     }
     
     private static String truncateText(String text, int maxLength) {
+        if (text == null) {
+            return "";
+        }
         if (text.length() <= maxLength) {
             return text;
         }

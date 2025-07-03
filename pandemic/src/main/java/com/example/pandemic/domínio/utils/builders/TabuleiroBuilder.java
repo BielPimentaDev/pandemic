@@ -7,10 +7,6 @@ import com.example.pandemic.domínio.entidades.Doenca;
 import com.example.pandemic.domínio.entidades.Tabuleiro;
 
 public class TabuleiroBuilder {
-    // Implementação do TabuleiroBuilder
-    // Este builder pode ser usado para criar instâncias de Tabuleiro com configurações específicas
-    // como cidades, doenças, jogadores, etc.
-
     Cidade cidade1 = CidadeBuilder.umaCidade().comNome("Rio de Janeiro").build();
     Cidade cidade2 = CidadeBuilder.umaCidade().comNome("Sao Paulo").build();
     Cidade cidade3 = CidadeBuilder.umaCidade().comNome("Minas Gerais").build();

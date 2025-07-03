@@ -1,4 +1,4 @@
-package com.example.pandemic.domain.acoes;
+package com.example.pandemic.domínio.acoes;
 
 import static org.junit.jupiter.api.Assertions.*;
 

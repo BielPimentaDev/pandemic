@@ -1,13 +1,15 @@
-package com.example.pandemic.domínio.entidades;
+package com.example.pandemic.domínio.entidades.jogo;
 
 import java.util.List;
 
-public class TurnManager {
+import com.example.pandemic.domínio.entidades.Jogador;
+
+public class GerenciadorDeTurno {
     private final List<Jogador> jogadores;
     private int turnoAtual;
     private int acoesRestantes;
     
-    public TurnManager(List<Jogador> jogadores) {
+    public GerenciadorDeTurno(List<Jogador> jogadores) {
         this.jogadores = jogadores;
         this.turnoAtual = 0;
         this.acoesRestantes = 4; // Padrão do Pandemic

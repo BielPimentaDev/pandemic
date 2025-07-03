@@ -30,6 +30,12 @@ public class Cidade {
         this.intensidadeDaDoenca = 0;
     }
 
+    public void setDoenca(Doenca doenca) {
+        this.doenca = doenca;
+        this.intensidadeDaDoenca = 1; 
+
+    }
+
     public Cidade(String nome, Doenca doenca) {
         this(nome, new ArrayList<>(), doenca);
     }
@@ -68,7 +74,9 @@ public class Cidade {
     }
 
     public void aumentarIntensidadeDaDoenca(){
-        this.intensidadeDaDoenca ++;
+        if(this.intensidadeDaDoenca < 3) { // Limite máximo de intensidade
+            this.intensidadeDaDoenca++;
+        }
     }
 
     public int getIntensidadeDaDoenca(){

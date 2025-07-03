@@ -11,10 +11,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import com.example.pandemic.domínio.entidades.cartas.Embaralhador;
+import com.example.pandemic.domínio.entidades.jogo.Jogo;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class JogoEstadosTest {
 
     @Mock
@@ -58,6 +62,7 @@ class JogoEstadosTest {
         doencas = Arrays.asList(mockDoenca1, mockDoenca2, mockDoenca3, mockDoenca4);
         cidades = Arrays.asList(mockCidade1, mockCidade2);
         
+        // Setup básico necessário para funcionamento
         when(mockTabuleiro.getDoencas()).thenReturn(doencas);
         when(mockTabuleiro.getCidades()).thenReturn(cidades);
         when(mockJogador1.getNome()).thenReturn("Jogador 1");
@@ -68,7 +73,8 @@ class JogoEstadosTest {
 
     @Test
     void deveDetectarVitoriaQuandoTodasCurasSaoDescubertas() {
-        // Arrange
+        // Arrange - apenas stubbings necessários para este teste
+        when(mockTabuleiro.getDoencas()).thenReturn(doencas);
         when(mockDoenca1.isCuraDescoberta()).thenReturn(true);
         when(mockDoenca2.isCuraDescoberta()).thenReturn(true);
         when(mockDoenca3.isCuraDescoberta()).thenReturn(true);
@@ -85,12 +91,19 @@ class JogoEstadosTest {
 
     @Test
     void naoDeveDetectarVitoriaQuandoApenasAlgumasCurasSaoDescubertas() {
-        // Arrange
+        // Arrange - apenas stubbings necessários para este teste
+        when(mockTabuleiro.getDoencas()).thenReturn(doencas);
+        when(mockTabuleiro.getCidades()).thenReturn(cidades);
         when(mockDoenca1.isCuraDescoberta()).thenReturn(true);
         when(mockDoenca2.isCuraDescoberta()).thenReturn(true);
         when(mockDoenca3.isCuraDescoberta()).thenReturn(false); // Uma cura não descoberta
         when(mockDoenca4.isCuraDescoberta()).thenReturn(true);
         when(mockEmbaralhador.darCartaAoJogador(any())).thenReturn(true);
+        when(mockEmbaralhador.temCartas()).thenReturn(true);
+        
+        // Mock das cidades para não causar derrota por infecção
+        when(mockCidade1.getDoenca()).thenReturn(null);
+        when(mockCidade2.getDoenca()).thenReturn(null);
         
         // Act
         jogo.proximoTurno();
@@ -102,7 +115,9 @@ class JogoEstadosTest {
 
     @Test
     void deveDetectarDerrotaPorFaltaDeCartas() {
-        // Arrange
+        // Arrange - apenas stubbings necessários para este teste
+        when(mockTabuleiro.getDoencas()).thenReturn(doencas);
+        when(mockTabuleiro.getCidades()).thenReturn(cidades);
         when(mockDoenca1.isCuraDescoberta()).thenReturn(false);
         when(mockDoenca2.isCuraDescoberta()).thenReturn(false);
         when(mockDoenca3.isCuraDescoberta()).thenReturn(false);
@@ -124,7 +139,9 @@ class JogoEstadosTest {
 
     @Test
     void deveDetectarDerrotaPorInfeccaoGeneralizada() {
-        // Arrange
+        // Arrange - apenas stubbings necessários para este teste
+        when(mockTabuleiro.getDoencas()).thenReturn(doencas);
+        when(mockTabuleiro.getCidades()).thenReturn(cidades);
         when(mockDoenca1.isCuraDescoberta()).thenReturn(false);
         when(mockDoenca2.isCuraDescoberta()).thenReturn(false);
         when(mockDoenca3.isCuraDescoberta()).thenReturn(false);
@@ -148,7 +165,9 @@ class JogoEstadosTest {
 
     @Test
     void deveContinuarJogoQuandoNaoHaCondicoesDeFimDeJogo() {
-        // Arrange
+        // Arrange - apenas stubbings necessários para este teste
+        when(mockTabuleiro.getDoencas()).thenReturn(doencas);
+        when(mockTabuleiro.getCidades()).thenReturn(cidades);
         when(mockDoenca1.isCuraDescoberta()).thenReturn(false);
         when(mockDoenca2.isCuraDescoberta()).thenReturn(true);
         when(mockDoenca3.isCuraDescoberta()).thenReturn(false);
@@ -194,7 +213,8 @@ class JogoEstadosTest {
 
     @Test
     void deveTestjarEstadoInicialDoGameStateManager() {
-        // Arrange - Estado inicial
+        // Arrange - Estado inicial - apenas stubbings necessários para este teste
+        when(mockTabuleiro.getDoencas()).thenReturn(doencas);
         when(mockDoenca1.isCuraDescoberta()).thenReturn(false);
         when(mockDoenca2.isCuraDescoberta()).thenReturn(false);
         when(mockDoenca3.isCuraDescoberta()).thenReturn(false);

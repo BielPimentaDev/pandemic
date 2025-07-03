@@ -18,7 +18,12 @@ public class VooFretado implements Acao {
 
     @Override
     public void executar(Jogador jogador) {
-        Cidade posicaoAtual = jogador.getPosicao();        
+        Cidade posicaoAtual = jogador.getPosicao();
+        
+        if (posicaoAtual == null) {
+            throw new IllegalStateException("Jogador não tem posição atual definida.");
+        }
+        
         if (posicaoAtual.equals(destino)) {
             throw new IllegalArgumentException("Não é possível usar Voo Fretado para a mesma cidade.");
         }

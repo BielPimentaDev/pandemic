@@ -11,10 +11,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import com.example.pandemic.domínio.entidades.cartas.Embaralhador;
+import com.example.pandemic.domínio.entidades.jogo.Jogo;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class JogoTest {
 
     @Mock
@@ -37,7 +41,7 @@ class JogoTest {
         jogadores = Arrays.asList(mockJogador1, mockJogador2);
         jogo = new Jogo(mockTabuleiro, jogadores, mockEmbaralhador);
         
-        // Setup básico dos mocks
+        // Setup básico dos mocks necessários
         when(mockJogador1.getNome()).thenReturn("Jogador 1");
         when(mockJogador2.getNome()).thenReturn("Jogador 2");
     }

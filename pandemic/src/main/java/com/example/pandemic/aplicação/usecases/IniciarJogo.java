@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.example.pandemic.domínio.entidades.Cidade;
 import com.example.pandemic.domínio.entidades.Jogador;
-import com.example.pandemic.domínio.entidades.Jogo;
 import com.example.pandemic.domínio.entidades.Tabuleiro;
 import com.example.pandemic.domínio.entidades.cartas.CartaCidade;
 import com.example.pandemic.domínio.entidades.cartas.Embaralhador;
+import com.example.pandemic.domínio.entidades.jogo.Jogo;
 
 public class IniciarJogo {
     private Tabuleiro tabuleiro;

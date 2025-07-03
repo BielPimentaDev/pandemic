@@ -1,7 +1,7 @@
 package com.example.pandemic.aplicação.usecases;
 
 import com.example.pandemic.domínio.acoes.Acao;
-import com.example.pandemic.domínio.entidades.Jogo;
+import com.example.pandemic.domínio.entidades.jogo.Jogo;
 
 public class ProcessarTurno {
     private Jogo jogo;
@@ -11,15 +11,15 @@ public class ProcessarTurno {
     }
 
     public void executar(Acao acao) {
-        if (!jogo.getTurnManager().temAcoesRestantes()) {
+        if (!jogo.temAcoesRestantes()) {
             throw new IllegalArgumentException("Número máximo de ações por turno excedido");
         }
 
         System.out.println("Jogador: " + jogo.getJogadorAtual().getNome() + " esta executando a ação");
         jogo.getJogadorAtual().executarAcao(acao);
-        jogo.getTurnManager().consumirAcao();
+        jogo.consumirAcao();
         
-        if (!jogo.getTurnManager().temAcoesRestantes()) {
+        if (!jogo.temAcoesRestantes()) {
             jogo.proximoTurno();
         }
     }

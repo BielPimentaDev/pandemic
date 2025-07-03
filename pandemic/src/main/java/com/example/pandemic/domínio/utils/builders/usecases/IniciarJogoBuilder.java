@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.example.pandemic.aplicação.usecases.IniciarJogo;
 import com.example.pandemic.domínio.entidades.Jogador;
-import com.example.pandemic.domínio.entidades.Jogo;
 import com.example.pandemic.domínio.entidades.Tabuleiro;
+import com.example.pandemic.domínio.entidades.jogo.Jogo;
 import com.example.pandemic.domínio.utils.builders.JogadorBuilder;
 import com.example.pandemic.domínio.utils.builders.TabuleiroBuilder;
 
